@@ -1,0 +1,51 @@
+settings:
+  title: "&eMenu!"
+  rows: 3
+  onOpen:
+    command:
+    - say Inventory open.
+    - say Hello
+    console_command:
+    - op {player}
+  onClose:
+    command:
+    - say Inventory closed.
+items:
+  '1':
+    onClick:
+      command:
+        - spawn
+    name: '&e/spawn'
+    item: 'COMMAND'
+    enchants:
+    - KNOCKBACK 1
+    x: 2
+    y: 2
+    close: true
+  '2':
+    onClick:
+      console_command:
+        - op {player}
+    name: '&4/op'
+    item: 'WOOL'
+    damage: 15
+    lore:
+    - '&cWowowowo'
+    enchants:
+    - KNOCKBACK 1
+    x: 8
+    y: 2
+    close: true
+  '3':
+    onClick:
+      console_command:
+        - say {player} has clicked.
+        - give {player} dirt 64
+        - give {player} dirt 64
+    name: '&eClick here'
+    item: 'COMMAND'
+    amount: 2
+    enchants:
+    - KNOCKBACK 1
+    x: 7
+    y: 1
