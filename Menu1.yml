@@ -1,34 +1,102 @@
+##############################
+#        Exemple menu        #
+##############################
+
+#The menu's name is the file's name. (Without .yml)
+#Simple tutorial for SkyBeast's menu bukkit plugin.
+
+#Settings: Globale values about the menu.
 settings:
+  
+  #Required: title
+  #-> Menu's name (shown above the items)
   title: "&eMenu!"
+  
+  #Required: rows
+  #-> amount of rows in the inventory (max 6)
   rows: 3
+  
+  #Optional: onOpen listener
+  #-> fired when the inventory is open
+  
+  #### Listeners -> actions can be command, console_command (Not more for now :/)
   onOpen:
-    command:
-    - say Inventory open.
-    - say Hello
-    console_command:
+    
+    command: #Command action: Run commands as the player (Using his permissions)
+    #### Placeholders: {player} -> Player's name; {currency} -> Currency name (Economy; {money} -> Player's money (Enconomy)
+    #### Color codes: see http://wiki.ess3.net/mc/ for a list.
+    - say &bHello
+    - say &nI have {money} {currency}.
+    
+    console_command: #Console Command action: Run commands as the player. (Using his permissions)
     - op {player}
+  
+  #Optional: onOpen listener
+  #-> fired when the inventory is closed.
   onClose:
     command:
     - say Inventory closed.
+#Items: Items in the inventory.
 items:
-  '1':
+  
+  #Optional: Item
+  #-> Structure of an item
+  spawn: #This name is useless, just do not have 2 items with the same name.
+  
+    #Required: Item ID
+    #-> This is the item's ID (See https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html for a full list.)
+    item: 'WOOL'
+    
+    #Optional: Item damage value
+    #-> If not specified, the damage value will be 0.
+    damage: 14
+    
+    #Optional: Item amount
+    #-> If not specified, the amount will be 1.
+    amount: 16
+    
+    #Optional: Item name
+    #-> You can use placeholders and color codes.
+    name: '&e{player}''s Magic wool'
+    
+    #Optional: Lore
+    #-> You can use placeholders and color codes.
+    lore:
+    - '&aThis is a line.'
+    - '&bThis is another one.'
+    
+    #Optional: Enchantments
+    #-> List the enchantments like this: - ENCHANTMENT_NAME LVL (See https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/enchantments/Enchantment.html for a full list.)
+    enchants:
+    - KNOCKBACK 1
+    - DIG_SPEED 10
+  
+    #Required: X row ID
+    #-> !!Start at 0!! - Slot = 9*y + x. ({x=0; y=2} will give slot number 9*2+0=18)
+    x: 0
+  
+    #Required: Y row ID
+    #-> !!Start at 0!! - Slot = 9*y + x. ({x=0; y=2} will give slot number 9*2+0=18)
+    y: 1
+  
+    #Optional: Auto-close
+    #-> Will the menu close when clicking the item? (If not spified: false)
+    close: true
+    
+    #Optional: onClick listener
+    #-> fired when the item is clicked.
     onClick:
       command:
         - spawn
-    name: '&e/spawn'
-    item: 'COMMAND'
-    enchants:
-    - KNOCKBACK 1
-    x: 2
-    y: 2
-    close: true
+      
+  #Optional: Another item
+  #-> Repeat the process...
   '2':
     onClick:
       console_command:
         - op {player}
     name: '&4/op'
-    item: 'WOOL'
-    damage: 15
+    item: 'DIRT'
     lore:
     - '&cWowowowo'
     enchants:
