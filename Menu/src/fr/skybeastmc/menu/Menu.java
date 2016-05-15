@@ -20,8 +20,6 @@ public class Menu {
 	
 	public static Menu get(String name) {// ./plugins/Menu/menus/{name}.yml
 		File file = new File(Main.getFolder()+File.separator+"menus"+File.separator+name+".yml");
-		Debug.debug(Main.getFolder()+File.separator+"menus"+File.separator+name+".yml");
-		Debug.debug(file.exists());
 		if(!file.exists()) return null;
 		YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 		ConfigurationSection items = config.getConfigurationSection("items");
@@ -29,7 +27,6 @@ public class Menu {
 				PlaceHolders.format(config.getString("settings.title")));
 		
 		for(String key : items.getKeys(false)) {
-			Debug.debug(key);
 			
 			ConfigurationSection item = config.getConfigurationSection("items."+key);
 			int amount = item.getInt("amount");

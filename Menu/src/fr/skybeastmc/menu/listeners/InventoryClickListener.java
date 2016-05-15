@@ -23,19 +23,15 @@ public class InventoryClickListener implements Listener {
 			event.setCancelled(true);
 			for(Menu menu : MenuManager.getMenus()) {
 				if(menu.getInventory().getName().equals(event.getInventory().getName())) {
-					Debug.debug("menu found");
 					String name = menu.getName();
 					
 					File file = new File(Main.getFolder()+File.separator+"menus"+File.separator+name+".yml");
-					Debug.debug(Main.getFolder()+File.separator+"menus"+File.separator+name+".yml");
-					Debug.debug(file.exists());
 					YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
 					ConfigurationSection items = config.getConfigurationSection("items");
 					for(String key : items.getKeys(false)) {
 						int menuSlot = 9 * items.getInt(key+".y") + items.getInt(key+".x");
 						if(menuSlot == event.getRawSlot()) {
 							ConfigurationSection item = items.getConfigurationSection(key);
-							Debug.bc("Yes!");
 							CommandDispatcher.dispatch(item.getConfigurationSection("onClick"),
 									(Player) event.getWhoClicked());
 

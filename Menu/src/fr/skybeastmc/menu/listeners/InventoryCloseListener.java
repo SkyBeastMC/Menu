@@ -21,7 +21,6 @@ public class InventoryCloseListener implements Listener {
 		try {
 			for(Menu menu : MenuManager.getMenus()) {
 				if(menu.getInventory().getName().equals(event.getInventory().getName())) {
-					Debug.debug("menu found");
 					String name = menu.getName();
 
 					YamlConfiguration config = YamlConfiguration.loadConfiguration(

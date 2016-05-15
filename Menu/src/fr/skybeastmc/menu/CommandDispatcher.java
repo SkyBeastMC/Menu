@@ -10,26 +10,26 @@ public class CommandDispatcher {
 	public static void dispatch(ConfigurationSection section, Player player) {
 		if(section != null) {
 			for(String key : section.getKeys(false)) {
-				Debug.bc(key);
 				List<String> commands;
 				switch(key) {
 				case "command":
 					commands = section.getStringList(key);
-					if(commands != null)
+					if(commands != null) {
 						for(String command : commands) {
 							Bukkit.dispatchCommand(player, 
 									PlaceHolders.format(command, player));
-							Debug.bc(command);
 						}
+					}
 					break;
 				case "console_command":
 					commands = section.getStringList(key);
-					if(commands != null)
+					
+					if(commands != null) {
 						for(String command : commands) {
 							Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 									PlaceHolders.format(command, player));
-							Debug.bc(command);
 						}
+					}
 					break;
 				case "op_command":
 					break;
