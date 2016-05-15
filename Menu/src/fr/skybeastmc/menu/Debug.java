@@ -54,9 +54,7 @@ public class Debug implements Listener {
 	@EventHandler
 	public void onInteractEvent(PlayerInteractEvent event) {
 		try {
-			debug(Main.getPlugin().getDataFolder());
 			Menu menu = Menu.get("menu1");
-			bc(String.valueOf(menu));
 			menu.open(event.getPlayer());
 		} catch(Exception e) {
 			error(e, "Debug", false);
