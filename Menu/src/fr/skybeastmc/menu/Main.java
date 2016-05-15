@@ -3,15 +3,17 @@ package fr.skybeastmc.menu;
 import java.io.File;
 
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.Listener;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.skybeastmc.menu.bridge.EconomyBridge;
 import fr.skybeastmc.menu.bridge.VaultEconomyBridge;
 import fr.skybeastmc.menu.commands.MenuCommand;
 import fr.skybeastmc.menu.listeners.InventoryClickListener;
+import fr.skybeastmc.menu.listeners.InventoryCloseListener;
 
-public class Main extends JavaPlugin implements Listener {
+public class Main extends JavaPlugin {
 	private static JavaPlugin plugin;
 	private static YamlConfiguration config;
 	
@@ -32,7 +34,8 @@ public class Main extends JavaPlugin implements Listener {
 			Debug.setDebug(debug);
 			if(debug) getServer().getPluginManager().registerEvents(new Debug(), this);
 			getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
-			getCommand("menu").setExecutor(new MenuCommand());;
+			getServer().getPluginManager().registerEvents(new InventoryCloseListener(), this);
+			getCommand("menu").setExecutor(new MenuCommand());
 			
 		} catch (Exception e) {Debug.error(e, "Enabling", true);}
 		
@@ -43,13 +46,19 @@ public class Main extends JavaPlugin implements Listener {
 					break;
 				}
 			}
+			if(!EconomyBridge.isUsable()) {
+				Debug.info("No compatible money plugin found!");
+				Debug.info("Please install one of the following:");
+				Debug.info(String.valueOf(EconomyBridge.getCompatibleEconomyPlugins()));
+				Debug.info("The currency features are not working.");
+			}
 			
 		} catch (Exception e) {Debug.error(e, "Bridge", true);}
 		
 	}
 	
 	public void onDisable() {
-		
+		HandlerList.unregisterAll(this);
 	}
 	
 

@@ -3,3 +3,5 @@ version: 1.0
 main: fr.skybeastmc.menu.Main
 description: Menu
 author: [SkyBeast55]
+commands:
+  menu:

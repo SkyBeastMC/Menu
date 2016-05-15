@@ -78,7 +78,12 @@ public class Menu {
 			}
 			
 			item.setItemMeta(meta);
+			
+			
 		}
+		YamlConfiguration config = YamlConfiguration.loadConfiguration(
+				new File(Main.getFolder()+File.separator+"menus"+File.separator+name+".yml"));
+		CommandDispatcher.dispatch(config.getConfigurationSection("settings.onOpen"), player);
 	}
 	
 	public Menu(String name, Inventory inventory) {

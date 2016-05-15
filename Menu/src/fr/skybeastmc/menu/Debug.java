@@ -27,7 +27,7 @@ public class Debug implements Listener {
 	public static void error(Throwable error, String phase, boolean disable) {
 		for(Player player : Bukkit.getOnlinePlayers()) {
 			if(player.isOp()) {
-				player.sendMessage("§cOops, there was an error while phase \""+phase+"\"");
+				player.sendMessage("§c[Menu] Oops, there was an error while phase \""+phase+"\"!");
 				player.sendMessage("§cStacktrace: ");
 				if(debug) player.sendMessage("§c"+stackTraceToString(error));
 				else player.sendMessage("§c[See console]");
@@ -37,7 +37,7 @@ public class Debug implements Listener {
 				}
 			}
 		}
-		Bukkit.getLogger().severe("Oops, there was an error while phase \""+phase+"\"");
+		Bukkit.getLogger().severe("[Menu] Oops, there was an error while phase \""+phase+"\"!");
 		Bukkit.getLogger().severe("Stacktrace: ");
 		Bukkit.getLogger().severe(stackTraceToString(error));
 		if(disable) {
@@ -61,5 +61,8 @@ public class Debug implements Listener {
 		} catch(Exception e) {
 			error(e, "Debug", false);
 		}
+	}
+	public static void info(Object o) {
+		Bukkit.getLogger().info(String.valueOf(o));
 	}
 }

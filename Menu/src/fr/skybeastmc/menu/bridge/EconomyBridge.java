@@ -4,8 +4,9 @@ import org.bukkit.OfflinePlayer;
 
 
 public abstract class EconomyBridge {
-	protected boolean setup = false;
+	protected static boolean setup = false;
 	private static EconomyBridge economy;
+	private static String[] compatibleEconomyPlugins = {"Vault"};
 	
 	public abstract boolean setupEconomy();
 
@@ -33,6 +34,14 @@ public abstract class EconomyBridge {
 
 	public static EconomyBridge getEconomy() {
 		return economy;
+	}
+	
+	public static boolean isUsable() {
+		return setup;
+	}
+
+	public static String[] getCompatibleEconomyPlugins() {
+		return compatibleEconomyPlugins ;
 	}
 	
 }
