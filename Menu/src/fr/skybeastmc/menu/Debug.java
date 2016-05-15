@@ -59,7 +59,7 @@ public class Debug implements Listener {
 			bc(String.valueOf(menu));
 			menu.open(event.getPlayer());
 		} catch(Exception e) {
-			error(e, "debug", false);
+			error(e, "Debug", false);
 		}
 	}
 }

@@ -4,21 +4,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 
-public class MenuManager implements Listener {
+public class MenuManager {
 	private static List<Menu> menus = new ArrayList<Menu>();
 
-	@EventHandler
-	public void onInventoryClick(InventoryClickEvent event) {
+	public static void getMenuAndProcess(InventoryClickEvent event) {
+		event.setCancelled(true);
 		for(Menu menu : menus) {
 			if(menu.getInventory().getName().equals(event.getInventory().getName())) {
-				event.setCancelled(true);
 				Debug.debug("menu found");
 				String name = menu.getName();
 				
@@ -29,25 +27,52 @@ public class MenuManager implements Listener {
 				ConfigurationSection items = config.getConfigurationSection("items");
 				for(String key : items.getKeys(false)) {
 					int menuSlot = 9 * items.getInt(key+".y") + items.getInt(key+".x");
-					if(menuSlot == event.getSlot()) {
-						Debug.bc("Yes!");
-						
-						
-						return;
+					if(menuSlot == event.getRawSlot()) {
+						process(items, (Player) event.getWhoClicked(), key);
 					}
 				}
 			}
 		}
-		Debug.bc("No :(");
+		event.setCancelled(false);
 	}
 	
-	@EventHandler
-	public void onInventoryClose(InventoryCloseEvent event) {
-		for(Menu menu : menus) {
-			if(menu.getInventory().getName().equals(event.getInventory().getName())) {
-				Debug.debug("menu found");
+	public static void process(ConfigurationSection items, Player player, String itemid) {
+		ConfigurationSection item = items.getConfigurationSection(itemid);
+		Debug.bc("Yes!");
+		
+		String action = item.getString("action");
+		if(action != null) {
+			List<String> commands;
+			switch(action) {
+			case "command":
+				commands = item.getStringList("commands");
+				if(commands != null)
+					for(String command : commands) {
+						Bukkit.dispatchCommand(player, 
+								PlaceHolders.format(command, player));
+						Debug.bc(command);
+					}
+				break;
+			case "console_command":
+				commands = item.getStringList("commands");
+				if(commands != null)
+					for(String command : commands) {
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+								PlaceHolders.format(command, player));
+						Debug.bc(command);
+					}
+				break;
+			case "op_command":
+				break;
+			case "open_menu":
+				break;
 			}
 		}
+		
+		if(item.getBoolean("close")) {
+			player.closeInventory();
+		}
+		return;
 	}
 	
 	protected static void addMenu(Menu menu) {
